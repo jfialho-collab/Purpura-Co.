@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Púrpura Co. - Cardápio Digital</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <section id="introScreen" class="intro-screen">
+        <div class="intro-content-wrapper">
+            <div class="logo-texto-intro">
+                <h1 class="logo-main">PÚRPURA</h1>
+                <h2 class="logo-sub">CO.</h2>
+            </div>
+            <button class="btn-entrar" onclick="entrarNoCardapio()">CARDÁPIO</button>
+        </div>
+    </section>
+
+    <div class="coupon-container">
+        <div class="coupon-card" onclick="copiarCupom()">
+            <div class="coupon-content">
+                <span class="coupon-header">🎁 PRESENTE PRA VOCÊ</span>
+                <div class="coupon-row">
+                    <code id="cupomTexto">PURPURA10</code>
+                    <button class="copy-btn">COPIAR</button>
+                </div>
+                <p class="coupon-footer">Toque para aplicar 10% de desconto</p>
+            </div>
+            <div id="tooltipCopiado" class="tooltip-aviso">Copiado com sucesso!</div>
+        </div>
+    </div>
+    <div id="mainApp" class="app-wrapper" style="display: none;">
+        <header class="clean-header">
+            <h1 class="logo-text">PÚRPURA <span class="orange">CO.</span></h1>
+            <p class="tagline">CARDÁPIO COMPLETO</p>
+        </header>
+
+        <div class="menu-flow">
+            <section class="menu-section">
+                <h2 class="section-heading">TAMANHOS <span class="dot"></span></h2>
+                <div class="options-list">
+                    <div class="row">
+                        <span class="label">200ml <small>R$ 15,00</small></span>
+                        <div class="controls">
+                            <button type="button" onclick="changeQty(this, -1)">-</button>
+                            <input type="number" class="qty-input" value="0" data-price="15.00" data-name="200ml" readonly>
+                            <button type="button" onclick="changeQty(this, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="label">500ml <small>R$ 29,90</small></span>
+                        <div class="controls">
+                            <button type="button" onclick="changeQty(this, -1)">-</button>
+                            <input type="number" class="qty-input" value="0" data-price="29.90" data-name="500ml" readonly>
+                            <button type="button" onclick="changeQty(this, 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <span class="label">700ml <small>R$ 35,00</small></span>
+                        <div class="controls">
+                            <button type="button" onclick="changeQty(this, -1)">-</button>
+                            <input type="number" class="qty-input" value="0" data-price="35.00" data-name="700ml" readonly>
+                            <button type="button" onclick="changeQty(this, 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="menu-section">
+                <h2 class="section-heading">ACOMPANHA <span class="orange">ATÉ 4</span> <span id="count-acompanha" style="font-size: 0.8rem; opacity: 0.5; margin-left: 10px;">(0/4)</span> <span class="dot"></span></h2>
+                <div class="grid-selection">
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Leite em pó"> <span>Leite em pó</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Leite Condensado"> <span>Leite Condensado</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Uva verde"> <span>Uva verde</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Paçoca"> <span>Paçoca</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Manga"> <span>Manga</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Morango"> <span>Morango</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Kiwi"> <span>Kiwi</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Granola"> <span>Granola</span></label>
+                    <label class="item-check"><input type="checkbox" class="limit-4" value="Banana"> <span>Banana</span></label>
+                </div>
+            </section>
+
+            <section class="menu-section">
+                <h2 class="section-heading">ADICIONAIS <span class="dot"></span></h2>
+                <div class="grid-selection">
+                    <label class="item-check"><input type="checkbox" name="adicional" value="Creme de Avelã" data-price="5.00"> <span>Creme de Avelã <small>+R$5</small></span></label>
+                    <label class="item-check highlight"><input type="checkbox" name="adicional" value="Mousse de Maracujá" data-price="5.00"> <span>Mousse <small>+R$5</small></span></label>
+                    <label class="item-check"><input type="checkbox" name="adicional" value="Chocolate" data-price="5.00"> <span>Chocolate <small>+R$5</small></span></label>
+                    <label class="item-check"><input type="checkbox" name="adicional" value="Cupuaçu" data-price="5.00"> <span>Cupuaçu <small>+R$5</small></span></label>
+                    <label class="item-check"><input type="checkbox" name="adicional" value="Nutella" data-price="7.00"> <span>Nutella <small>+R$7</small></span></label>
+                </div>
+            </section>
+        </div>
+
+        <div class="action-area">
+            <button class="mega-button" onclick="abrirCheckout()">
+                <div class="btn-text-box">
+                    <span class="btn-small">FINALIZAR PEDIDO!</span>
+                </div>
+                <div class="btn-price-tag">
+                    <small>TOTAL</small>
+                    <span id="valorTotal">R$ 0,00</span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <div id="modalCheckout" class="modal-overlay">
+        <div class="modal-content">
+            <div class="input-group">
+                <label>Observações</label>
+                <textarea id="obsCliente" placeholder="Ex: Tirar a granola, enviar troco para R$ 50,00..." rows="2" style="width: 100%; border-radius: 10px; border: 1px solid #ddd; padding: 10px; font-family: inherit; resize: none;"></textarea>
+            </div>
+            <div id="screenSuccess" class="modal-overlay" style="display: none; background: var(--roxo);">
+                <div class="modal-content" style="text-align: center;">
+                    <div class="success-icon">✅</div>
+                    <h2 style="color: var(--roxo); margin-bottom: 15px;">PEDIDO ENVIADO!</h2>
+                    <p style="color: #666; margin-bottom: 25px;">Registramos seu pedido com sucesso. <br> <strong>Não esqueça de enviar a mensagem no WhatsApp!</strong></p>
+                   
+                    <div style="background: #f0f0f0; padding: 15px; border-radius: 12px; margin-bottom: 25px; text-align: left; font-size: 0.9rem;">
+                        <strong>Resumo rápido:</strong><br>
+                        <span id="resumoFinalSucesso"></span>
+                    </div>
+           
+                    <button class="confirm-btn" onclick="voltarParaInicio()">FAZER NOVO PEDIDO</button>
+                </div>
+            </div>
+            <button class="close-btn" onclick="fecharCheckout()">×</button>
+            <h2 class="modal-title">REVISÃO DO PEDIDO</h2>
+           
+            <div id="resumoCarrinho" class="resumo-carrinho"></div>
+
+            <hr style="margin: 15px 0; opacity: 0.2;">
+
+            <div class="delivery-selector">
+                <button id="btnEntrega" class="type-btn active" onclick="setDelivery('entrega')">Entrega</button>
+                <button id="btnRetirada" class="type-btn" onclick="setDelivery('retirada')">Retirada</button>
+            </div>
+
+            <div class="input-group"><label>Seu Nome</label><input type="text" id="nomeCliente" placeholder="Como te chamamos?"></div>
+           
+            <div id="campoEndereco" class="input-group">
+                <label>Endereço de Entrega</label>
+                <input type="text" id="enderecoCliente" placeholder="Rua, número e bairro">
+            </div>
+           
+            <div id="avisoRetirada" class="info-box" style="display: none;">
+                📍 <b>Retirada em:</b> Rua da Púrpura, 123 - Centro.
+            </div>
+
+            <div class="input-group">
+                <label>Cupom de Desconto</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="inputCupom" placeholder="Ex: PURPURA10">
+                    <button class="apply-coupon" onclick="aplicarCupom()">Aplicar</button>
+                </div>
+                <small id="msgCupom" style="display: block; margin-top: 5px;"></small>
+            </div>
+
+            <div class="input-group">
+                <label>Pagamento</label>
+                <select id="formaPagamento">
+                    <option value="Pix">Pix</option>
+                    <option value="Cartão">Cartão</option>
+                    <option value="Dinheiro">Dinheiro</option>
+                </select>
+            </div>
+
+            <button class="confirm-btn" onclick="finalizarDeVez()">Finalizar!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
